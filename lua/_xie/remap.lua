@@ -11,8 +11,8 @@ km.set("v", "J", ":m '>+1<CR>gv=gv")
 km.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- clipboard
-km.set("v", "y", "\"+y")
-km.set("v", "p", "\"+p")
+km.set("v", "y", '\"+y')
+km.set("v", "p", '\"+p')
 
 -- page moving
 km.set("n", "<C-d>", "<C-d>zz")

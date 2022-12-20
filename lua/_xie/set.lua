@@ -8,8 +8,8 @@ o.softtabstop = 4
 o.shiftwidth = 4
 o.expandtab = true
 o.smartindent = true
-o.clipboard = unnamedplus
-o.completeopt = menu, menuone, noselect
+o.clipboard = "unnamedplus"
+o.completeopt = "menu,menuone,noselect"
 
 o.scrolloff = 8
 o.swapfile = false
