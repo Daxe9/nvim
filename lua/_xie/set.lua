@@ -12,8 +12,6 @@ o.clipboard = "unnamedplus"
 o.completeopt = "menu,menuone,noselect"
 
 o.scrolloff = 8
-o.swapfile = false
-o.backup = false
 
 o.updatetime = 50
 o.hidden = true
@@ -22,7 +20,6 @@ o.hlsearch = false
 o.incsearch = true
 
 o.termguicolors = true
-
 
 -- g.AirlineTheme="bubblegum"
 g.copilot_no_tab_map = true
