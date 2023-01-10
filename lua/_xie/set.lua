@@ -11,6 +11,8 @@ o.smartindent = true
 o.clipboard = "unnamedplus"
 o.completeopt = "menu,menuone,noselect"
 
+o.encoding = "UTF-8"
+
 o.scrolloff = 8
 
 o.updatetime = 50
@@ -21,7 +23,12 @@ o.incsearch = true
 
 o.termguicolors = true
 
--- g.AirlineTheme="bubblegum"
 g.copilot_no_tab_map = true
 g.copilot_assume_mapped = true
+
+-- wrap
+o.wrap = false
+
+-- airline theme
+g.airline_theme = "base16_ocean"
 
