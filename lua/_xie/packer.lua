@@ -53,15 +53,8 @@ return require('packer').startup(function(use)
 
     use("vim-airline/vim-airline-themes") 
 
-    -- TODO: not working
     use {
         "zbirenbaum/copilot.lua",
-        --event = "VimEnter",
-        -- config = function()
-        --   vim.defer_fn(function()
-        --      require("copilot").setup()
-        --  end, 100)
-        --end,
     }
 
     use {
@@ -81,6 +74,19 @@ return require('packer').startup(function(use)
         "tpope/vim-commentary"
     }
 
+    use {
+        "ryanoasis/vim-devicons"
+    }
+
+    use {
+        "norcalli/nvim-colorizer.lua",
+        config = function() require("colorizer").setup() end
+    }
+
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+    })
 end)
 
 
