@@ -49,10 +49,6 @@ return require('packer').startup(function(use)
         }
     }
 
-    use("vim-airline/vim-airline") 
-
-    use("vim-airline/vim-airline-themes") 
-
     use {
         "zbirenbaum/copilot.lua",
     }
@@ -87,6 +83,37 @@ return require('packer').startup(function(use)
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
     })
+
+    use(
+        "prettier/vim-prettier",
+        {
+            run = "yarn install --frozen-lockfile --production"
+        }
+    )
+    -- Lua
+    use {
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            require("todo-comments").setup {
+                highlight = {
+                    multiline = true,
+                }
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        end
+    }
+
+	use {
+	  'lewis6991/gitsigns.nvim',
+	  -- tag = 'release' -- To use the latest release (do not use this if you run Neovim nightly or dev builds!)
+	}
+
+	use {
+		'freddiehaddad/feline.nvim',
+	}
 end)
 
 

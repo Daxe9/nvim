@@ -6,7 +6,7 @@ o.relativenumber = true
 o.tabstop = 4
 o.softtabstop = 4
 o.shiftwidth = 4
-o.expandtab = true
+o.expandtab = false
 o.smartindent = true
 o.clipboard = "unnamedplus"
 o.completeopt = "menu,menuone,noselect"
@@ -28,7 +28,4 @@ g.copilot_assume_mapped = true
 
 -- wrap
 o.wrap = false
-
--- airline theme
-g.airline_theme = "base16_ocean"
 

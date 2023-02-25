@@ -18,3 +18,22 @@ km.set("v", "p", '\"+p')
 km.set("n", "<C-d>", "<C-d>zz")
 km.set("n", "<C-u>", "<C-u>zz")
 
+
+-- function FindTextAndHighlight()
+--     local selectedText = vim.get_visual_selection()
+
+--     if selectedText == "" then
+--         return
+--     end
+    
+--     -- highlight all the occurrences of the selected text 
+--     vim.cmd("nohlsearch")
+
+    
+    
+--     -- color = color or "rose-pine"
+--     -- vim.cmd.colorscheme(color)
+
+--     -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+--     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+-- end

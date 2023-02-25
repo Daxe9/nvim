@@ -25,7 +25,6 @@ require('copilot').setup({
     },
     filetypes = {
         yaml = false,
-        rust = false,
         markdown = false,
         help = false,
         gitcommit = false,
