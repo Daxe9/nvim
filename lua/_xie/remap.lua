@@ -18,22 +18,31 @@ km.set("v", "p", '\"+p')
 km.set("n", "<C-d>", "<C-d>zz")
 km.set("n", "<C-u>", "<C-u>zz")
 
+km.set("v", "<C-p>", ":lua findTextAndHighlight()<CR>")
 
--- function FindTextAndHighlight()
---     local selectedText = vim.get_visual_selection()
 
---     if selectedText == "" then
---         return
---     end
-    
---     -- highlight all the occurrences of the selected text 
---     vim.cmd("nohlsearch")
+function findTextAndHighlight()
 
-    
-    
---     -- color = color or "rose-pine"
---     -- vim.cmd.colorscheme(color)
+    local vstart = vim.fn.getpos("'<")
 
---     -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
---     -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
--- end
+    local vend = vim.fn.getpos("'>")
+
+    local line_start = vstart[3]
+    local line_end = vend[3]
+
+    -- or use api.nvim_buf_get_lines
+    local line_text = vim.fn.getline(line_start,line_end)
+
+
+    local bufnr = vim.api.nvim_win_get_buf(0)
+    local start = vim.fn.getpos('v') -- [bufnum, lnum, col, off]
+    local _end = vim.fn.getpos('.') -- [bufnum, lnum, col, off]
+    -- return {
+        --   bufnr = bufnr,
+        --   mode = vim.fn.mode(),
+        --   pos = { start[2], start[3], _end[2], _end[3] },
+        -- }
+
+    print(line_text)
+
+end
