@@ -2,7 +2,7 @@ local o = vim.opt
 local g = vim.g
 
 o.nu = true
-o.relativenumber = true
+-- o.relativenumber = true
 o.tabstop = 4
 o.softtabstop = 4
 o.shiftwidth = 4
