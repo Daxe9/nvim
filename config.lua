@@ -10,8 +10,25 @@ lvim.builtin.nvimtree.setup.hijack_directories.enable = true
 -- Enable panel width resizing
 lvim.builtin.nvimtree.setup.actions.open_file.resize_window = true
 
+-- Telescope Binding
+lvim.keys.normal_mode["<C-F>"] = "<CMD>Telescope find_files<CR>";
+lvim.keys.normal_mode["<F2>"] = "<CMD>lua vim.lsp.buf.rename()<CR>";
+
+-- Telescope ignore directories
+lvim.builtin.telescope.defaults.file_ignore_patterns = {
+    "node_modules/.*",
+    ".idea/.*",
+    ".git/.*",
+    -- Rust 
+    "target/.*"
+}
+
+-- Theme 
+lvim.colorscheme = "rose-pine"
+
 -- Transparent window
 lvim.transparent_window = true
+
 -- Cpp stuff
 local opts = {
     cmd = {
@@ -23,8 +40,8 @@ require("lvim.lsp.manager").setup("clangd", opts)
 
 -----------MAPPINGS-----------------
 
-lvim.keys.normal_mode["<A-h>"] = ":bp<CR>"
-lvim.keys.normal_mode["<A-l>"] = ":bn<CR>"
+lvim.keys.normal_mode["<A-S-h>"] = ":bp<CR>"
+lvim.keys.normal_mode["<A-S-l>"] = ":bn<CR>"
 
 -----------SETTINGS-----------------
 
@@ -40,8 +57,6 @@ o.smartindent = true
 o.clipboard = "unnamedplus"
 o.completeopt = "menu,menuone,noselect"
 
-o.encoding = "UTF-16"
-
 o.scrolloff = 8
 
 o.updatetime = 50
@@ -50,6 +65,7 @@ o.hidden = true
 o.hlsearch = false
 o.incsearch = true
 
+o.background = "dark"
 o.termguicolors = true
 
 
@@ -57,24 +73,51 @@ o.termguicolors = true
 
 lvim.plugins = {
     {
-		"github/copilot.vim",
-		event = "VeryLazy",
-		config = function()
-			-- copilot assume mapped
-			vim.g.copilot_assume_mapped = true
-			vim.g.copilot_no_tab_map = true
-            -- disable copilot for cpp
-            vim.g.copilot_disable_filetypes = {"cpp"}
-    end,
-	},
-	{
-		"hrsh7th/cmp-copilot",
-		config = function()
-			lvim.builtin.cmp.formatting.source_names["copilot"] = "( )"
-			table.insert(lvim.builtin.cmp.sources, 2, { name = "copilot" })
-		end,
-	},
-
+        "sainnhe/everforest"
+    },
+    {
+        "sainnhe/gruvbox-material"
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine"
+    },
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
+        end,
+    },
 }
+
+-------------COPILOT----------------
+
+local ok, copilot = pcall(require, "copilot")
+if not ok then 
+    return
+end
+
+copilot.setup {
+    suggestion = {
+        keymap = {
+            accept = "<C-Y>",
+            next = "<C-J>",
+            prev = "<C-K>",
+        }
+    }
+}
+
+local opts = { 
+    noremap = true,
+    silent = true,
+}
+
+vim.api.nvim_set_keymap("n", "<C-S>", "<CMD>lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
 
 ------------------------------------
