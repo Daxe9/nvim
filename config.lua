@@ -24,19 +24,32 @@ lvim.builtin.telescope.defaults.file_ignore_patterns = {
 }
 
 -- Theme 
-lvim.colorscheme = "rose-pine"
+lvim.colorscheme = "kanagawa"
+lvim.builtin.lualine.options.theme = "kanagawa"
 
 -- Transparent window
 lvim.transparent_window = true
 
 -- Cpp stuff
-local opts = {
+local cpp_opts = {
     cmd = {
         "clangd",
         "--offset-encoding=utf-16"
     }
 }
-require("lvim.lsp.manager").setup("clangd", opts)
+local rust_opts = {
+    settings = {
+        checkOnSave = {
+            command = "clippy"
+        }
+    }
+}
+
+-- SQL File slow insert mode escape
+vim.g.ftplugin_sql_omni_key = "<C-j>"
+
+require("lvim.lsp.manager").setup("clangd", cpp_opts)
+require("lvim.lsp.manager").setup("rust_analyzer", rust_opts)
 
 -----------MAPPINGS-----------------
 
@@ -77,6 +90,9 @@ lvim.plugins = {
     },
     {
         "sainnhe/gruvbox-material"
+    },
+    {
+        "rebelot/kanagawa.nvim"
     },
     {
         "rose-pine/neovim",
@@ -120,4 +136,5 @@ local opts = {
 
 vim.api.nvim_set_keymap("n", "<C-S>", "<CMD>lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
 
+------------------------------------
 ------------------------------------
