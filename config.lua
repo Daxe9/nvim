@@ -1,4 +1,4 @@
--- Read the docs: https://www.lunarvim.org/docs/configuration
+
 -- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
@@ -13,6 +13,20 @@ lvim.builtin.nvimtree.setup.actions.open_file.resize_window = true
 -- Telescope Binding
 lvim.keys.normal_mode["<C-F>"] = "<CMD>Telescope find_files<CR>";
 lvim.keys.normal_mode["<F2>"] = "<CMD>lua vim.lsp.buf.rename()<CR>";
+lvim.keys.visual_mode["<C-O>"] = "<CMD>lua searchOccurrencies()<CR>"
+
+function searchOccurrencies()
+    local vstart = vim.fn.getpos("'<")
+
+    local vend = vim.fn.getpos("'>")
+
+    local line_start = vstart[2]
+    local line_end = vend[2]    
+
+    print(vstart[2])
+    print(vend[2])
+    print("Hello Motherfucker out there!")
+end
 
 -- Telescope ignore directories
 lvim.builtin.telescope.defaults.file_ignore_patterns = {
@@ -23,6 +37,8 @@ lvim.builtin.telescope.defaults.file_ignore_patterns = {
     "target/.*"
 }
 
+-- vim.api.nvim_set_hl(0, "LineNr", { bg = nil })
+
 -- Theme 
 lvim.colorscheme = "kanagawa"
 lvim.builtin.lualine.options.theme = "kanagawa"
@@ -31,25 +47,24 @@ lvim.builtin.lualine.options.theme = "kanagawa"
 lvim.transparent_window = true
 
 -- Cpp stuff
-local cpp_opts = {
-    cmd = {
-        "clangd",
-        "--offset-encoding=utf-16"
-    }
-}
-local rust_opts = {
-    settings = {
-        checkOnSave = {
-            command = "clippy"
-        }
-    }
-}
+-- local cpp_opts = { cmd = {
+--         "clangd",
+--         "--offset-encoding=utf-16"
+--     }
+-- }
+-- local rust_opts = {
+--     settings = {
+--         checkOnSave = {
+--             command = "clippy"
+--         }
+--     }
+-- }
 
 -- SQL File slow insert mode escape
 vim.g.ftplugin_sql_omni_key = "<C-j>"
 
-require("lvim.lsp.manager").setup("clangd", cpp_opts)
-require("lvim.lsp.manager").setup("rust_analyzer", rust_opts)
+-- require("lvim.lsp.manager").setup("clangd", cpp_opts)
+-- require("lvim.lsp.manager").setup("rust_analyzer", rust_opts)
 
 -----------MAPPINGS-----------------
 
@@ -61,6 +76,7 @@ lvim.keys.normal_mode["<A-S-l>"] = ":bn<CR>"
 local o = vim.opt
 
 o.number = true
+o.wrap = true
 o.relativenumber = true
 o.tabstop = 4
 o.softtabstop = 4
@@ -69,18 +85,12 @@ o.expandtab = true
 o.smartindent = true
 o.clipboard = "unnamedplus"
 o.completeopt = "menu,menuone,noselect"
-
 o.scrolloff = 8
-
 o.updatetime = 50
 o.hidden = true
-
 o.hlsearch = false
 o.incsearch = true
-
 o.background = "dark"
-o.termguicolors = true
-
 
 ------------PLUGINS----------------
 
@@ -98,43 +108,41 @@ lvim.plugins = {
         "rose-pine/neovim",
         name = "rose-pine"
     },
-    {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-    },
-    {
-        "zbirenbaum/copilot-cmp",
-        after = { "copilot.lua" },
-        config = function()
-            require("copilot_cmp").setup()
-        end,
-    },
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     cmd = "Copilot",
+    --     event = "InsertEnter",
+    -- },
+    -- {
+    --     "zbirenbaum/copilot-cmp",
+    --     after = { "copilot.lua" },
+    --     config = function()
+    --         require("copilot_cmp").setup()
+    --     end,
+    -- },
 }
 
 -------------COPILOT----------------
+-- local ok, copilot = pcall(require, "copilot")
+-- if not ok then
+--     return
+-- end
 
-local ok, copilot = pcall(require, "copilot")
-if not ok then 
-    return
-end
+-- copilot.setup {
+--     suggestion = {
+--         keymap = {
+--             accept = "<C-Y>",
+--             next = "<C-J>",
+--             prev = "<C-K>",
+--         }
+--     }
+-- }
 
-copilot.setup {
-    suggestion = {
-        keymap = {
-            accept = "<C-Y>",
-            next = "<C-J>",
-            prev = "<C-K>",
-        }
-    }
-}
+-- local opts = { 
+--     noremap = true,
+--     silent = true,
+-- }
 
-local opts = { 
-    noremap = true,
-    silent = true,
-}
+-- vim.api.nvim_set_keymap("n", "<C-S>", "<CMD>lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
 
-vim.api.nvim_set_keymap("n", "<C-S>", "<CMD>lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
-
-------------------------------------
 ------------------------------------
