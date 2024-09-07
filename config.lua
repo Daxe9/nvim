@@ -13,19 +13,52 @@ lvim.builtin.nvimtree.setup.actions.open_file.resize_window = true
 -- Telescope Binding
 lvim.keys.normal_mode["<C-F>"] = "<CMD>Telescope find_files<CR>";
 lvim.keys.normal_mode["<F2>"] = "<CMD>lua vim.lsp.buf.rename()<CR>";
-lvim.keys.visual_mode["<C-O>"] = "<CMD>lua searchOccurrencies()<CR>"
+lvim.keys.visual_mode["<C-O>"] = "<CMD>lua Print_visual_selection()<CR>"
 
-function searchOccurrencies()
-    local vstart = vim.fn.getpos("'<")
+function Print_visual_selection()
+    -- Get the current buffer number
+    local bufnr = vim.api.nvim_get_current_buf()
 
-    local vend = vim.fn.getpos("'>")
+    -- Get the start and end positions of the visual selection
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
 
-    local line_start = vstart[2]
-    local line_end = vend[2]    
+    local start_line, start_col = start_pos[2], start_pos[3]
+    local end_line, end_col = end_pos[2], end_pos[3]
 
-    print(vstart[2])
-    print(vend[2])
-    print("Hello Motherfucker out there!")
+    -- Get the lines from the buffer
+    local lines = vim.api.nvim_buf_get_lines(bufnr, start_line - 1, end_line, false)
+
+    -- Variable to store the selected text
+    local selected_text = ""
+
+    -- Adjust the first and last lines to only include the selected portion
+    if #lines == 0 then
+        selected_text = ""
+    elseif #lines == 1 then
+        -- Single line selection
+        selected_text = string.sub(lines[1], start_col, end_col)
+    else
+        -- Multi-line selection
+        local selected_lines = {}
+        selected_lines[1] = string.sub(lines[1], start_col)  -- First line from start_col
+        selected_lines[#lines] = string.sub(lines[#lines], 1, end_col)  -- Last line to end_col
+
+        -- Include all the middle lines as is
+        for i = 2, #lines - 1 do
+            selected_lines[i] = lines[i]
+        end
+
+        -- Join all selected lines into a single string
+        selected_text = table.concat(selected_lines, "\n")
+    end
+
+    -- Print the selected text
+    -- print(selected_text)
+    local command = "/" .. selected_text
+
+    vim.cmd.normal(command)
+
 end
 
 -- Telescope ignore directories
@@ -108,6 +141,12 @@ lvim.plugins = {
         "rose-pine/neovim",
         name = "rose-pine"
     },
+    {
+        "norcalli/nvim-colorizer.lua",
+        config = function()
+            require("colorizer").setup()
+        end
+    }
     -- {
     --     "zbirenbaum/copilot.lua",
     --     cmd = "Copilot",
